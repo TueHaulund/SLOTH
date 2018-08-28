@@ -34,7 +34,12 @@ class Token(object):
         self.pos = pos
 
     def __str__(self):
-        return '{}({}) at Line {}, Column {}'.format(self.type.name, self.lexeme, self.pos[0], self.pos[1])
+        return '{}({}) at Line {}, Column {}'.format(
+            self.type.name,
+            self.lexeme.replace('\n', '\\n'),
+            self.pos[0],
+            self.pos[1]
+        )
 
     def __repr__(self):
         return self.type.name

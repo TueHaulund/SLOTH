@@ -1,7 +1,7 @@
 from sloth.lexer import Lexer
 from sloth.lexer import LexerError
 
-bar = iter(Lexer("12 4 ( 5)\n23eqweqweqwee 45"))
+bar = Lexer('foo 1 2\nbar 1 k').all_tokens()
 
 try:
     for tok in bar:

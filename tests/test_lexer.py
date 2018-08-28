@@ -31,6 +31,18 @@ def test_empty(test_str):
             Token('NUMBER', '2', (1, 7)),
         ],
     ),
+    (
+        'foo 1 2\nbar 1 k',
+        [
+            Token('IDENTIFIER', 'foo', (1, 1)),
+            Token('NUMBER', '1', (1, 5)),
+            Token('NUMBER', '2', (1, 7)),
+            Token('EOL', '\n', (1, 8)),
+            Token('IDENTIFIER', 'bar', (2, 1)),
+            Token('NUMBER', '1', (2, 5)),
+            Token('IDENTIFIER', 'k', (2, 7)),
+        ],
+    ),
 ])
 def test_valid_input(test_str, expected):
     tokens = Lexer(test_str).all_tokens()

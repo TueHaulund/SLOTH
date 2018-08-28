@@ -17,6 +17,7 @@ class LexerError(Exception):
 class Lexer(object):
     def __init__(self, buf):
         self.buffer = buf.strip()
+        self.pos = 0
         self.line = 1
         self.column = 1
 
@@ -25,40 +26,35 @@ class Lexer(object):
         self.regex = re.compile('|'.join(grouped_rules))
 
     def skip_ws(self):
-        stripped = self.buffer.lstrip(' \t')
-        self.column += len(self.buffer) - len(stripped)
-        self.buffer = stripped
-
-    def escape_lexeme(self, lexeme):
-        return lexeme.replace('\n', '\\n')
+        while self.buffer[self.pos] in [' ', '\t']:
+            self.pos += 1
+            self.column += 1
 
     def next_token(self):
-        while self.buffer:
+        while self.pos < len(self.buffer):
             self.skip_ws()
 
-            match = self.regex.match(self.buffer)
-            pos = (self.line, self.column)
+            match = self.regex.match(self.buffer[self.pos:])
 
             if not match:
-                print(self.buffer)
-                raise LexerError(pos)
+                raise LexerError((self.line, self.column))
 
-            lexeme = self.escape_lexeme(match.group(match.lastgroup))
+            lexeme = match.group(match.lastgroup)
 
             token = Token(
                 match.lastgroup,
                 lexeme,
-                pos,
+                (self.line, self.column),
             )
 
-            if match.lastgroup == 'EOL':
+            if lexeme == '\n':
                 self.line += 1
                 self.column = 1
             else:
                 self.column += match.end() - match.start()
 
-            self.buffer = self.buffer[match.end():]
+            self.pos += match.end()
             yield token
 
     def all_tokens(self):
-        return [token for token in self.next_token()]
+        return list(self.next_token())
