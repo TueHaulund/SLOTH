@@ -2,37 +2,50 @@ import enum
 
 
 class LexicalGrammar(enum.Enum):
+
+    # Special Characters
     LEFT_PAREN = '\('
     RIGHT_PAREN = '\)'
     COMMA = '\,'
-    PERIOD = '\.'
+    COLON = '\:'
+    SEMI_COLON = '\;'
 
     MULTIPLY = '\*'
     ADDITION = '\+'
     SUBTRACTION = '\-'
-    DIVISION = '\\\\'
+    DIVISION = '\/'
 
-    GREATER_EQUAL = '\>\='
     GREATER_THAN = '\>'
-
-    LESS_EQUAL = '\<\='
     LESS_THAN = '\<'
+    EQUALS = '\='
 
-    EQUAL = '\=\='
+    EOL = '\n'
 
-    ASSIGNMENT = '\:\='
-
+    # Literals
     NUMBER = '\d+'
+    TRUE = 'true'
+    FALSE = 'false'
 
+    # Keywords
     IF = 'if'
     THEN = 'then'
     ELIF = 'elif'
     ELSE = 'else'
-    FI = 'fi'
 
-    TRUE = 'true'
-    FALSE = 'false'
+    WHILE = 'while'
+    FOR = 'for'
+    END = 'end'
 
+    NUM = 'num'
+    BOOL = 'bool'
+    VOID = 'void'
+
+    DEF = 'def'
+    RETURN = 'return'
+
+    OR = 'or'
+    AND = 'and'
+    NOT = 'not'
+
+    # Identifiers
     IDENTIFIER = '[a-zA-Z_][a-zA-Z0-9_]*'
-
-    EOL = '\n'

@@ -36,12 +36,13 @@ def test_empty(test_str):
             ],
         ),
         (
-            'if true then bar',
+            'if true then bar end',
             [
                 Token('IF', 'if', (1, 1)),
                 Token('TRUE', 'true', (1, 4)),
                 Token('THEN', 'then', (1, 9)),
                 Token('IDENTIFIER', 'bar', (1, 14)),
+                Token('END', 'end', (1, 18)),
             ],
         ),
     ],
