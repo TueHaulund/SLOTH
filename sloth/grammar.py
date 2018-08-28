@@ -1,5 +1,6 @@
 import enum
 
+
 class LexicalGrammar(enum.Enum):
     LEFT_PAREN = '\('
     RIGHT_PAREN = '\)'

@@ -1,5 +1,6 @@
 from sloth.grammar import LexicalGrammar
 
+
 class Token(object):
     def __init__(self, token_name, lexeme, pos):
         self.type = LexicalGrammar[token_name]
@@ -8,10 +9,7 @@ class Token(object):
 
     def __str__(self):
         return '{}({}) at Line {}, Column {}'.format(
-            self.type.name,
-            self.lexeme.replace('\n', '\\n'),
-            self.pos[0],
-            self.pos[1]
+            self.type.name, self.lexeme.replace('\n', '\\n'), self.pos[0], self.pos[1]
         )
 
     def __repr__(self):
@@ -19,6 +17,8 @@ class Token(object):
 
     def __eq__(self, other):
         if isinstance(other, Token):
-            return (self.type == other.type and
-                    self.lexeme == other.lexeme and
-                    self.pos == other.pos)
+            return (
+                self.type == other.type
+                and self.lexeme == other.lexeme
+                and self.pos == other.pos
+            )

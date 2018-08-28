@@ -3,16 +3,20 @@ import re
 from sloth.grammar import LexicalGrammar
 from sloth.token import Token
 
+
 class LexerError(Exception):
     def __init__(self, pos):
         self.pos = pos
-        self.description = 'LexerError at Line {}, Column {}'.format(self.pos[0], self.pos[1])
+        self.description = 'LexerError at Line {}, Column {}'.format(
+            self.pos[0], self.pos[1]
+        )
 
     def __str__(self):
         return self.description
 
     def __repr__(self):
         return 'LexerError {}'.format(self.pos)
+
 
 class Lexer(object):
     def __init__(self, buf):
@@ -34,20 +38,16 @@ class Lexer(object):
         while self.pos < len(self.buffer):
             self.skip_ws()
 
-            match = self.regex.match(self.buffer[self.pos:])
+            match = self.regex.match(self.buffer[self.pos :])
 
             if not match:
                 raise LexerError((self.line, self.column))
 
             lexeme = match.group(match.lastgroup)
 
-            token = Token(
-                match.lastgroup,
-                lexeme,
-                (self.line, self.column),
-            )
+            token = Token(match.lastgroup, lexeme, (self.line, self.column))
 
-            if lexeme == '\n':
+            if '\n' in lexeme:
                 self.line += 1
                 self.column = 1
             else:
