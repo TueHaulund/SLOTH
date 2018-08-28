@@ -38,3 +38,6 @@ class Token(object):
 
     def __repr__(self):
         return self.type.name
+
+    def __eq__(self, other):
+        return self.type == other.type and self.lexeme == other.lexeme and self.pos == other.pos

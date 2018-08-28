@@ -16,7 +16,7 @@ class LexerError(Exception):
 
 class Lexer(object):
     def __init__(self, buf):
-        self.buffer = buf
+        self.buffer = buf.strip()
         self.line = 1
         self.column = 1
 
@@ -32,7 +32,7 @@ class Lexer(object):
     def escape_lexeme(self, lexeme):
         return lexeme.replace('\n', '\\n')
 
-    def __iter__(self):
+    def next_token(self):
         while self.buffer:
             self.skip_ws()
 
@@ -59,3 +59,6 @@ class Lexer(object):
 
             self.buffer = self.buffer[match.end():]
             yield token
+
+    def all_tokens(self):
+        return [token for token in self.next_token()]
