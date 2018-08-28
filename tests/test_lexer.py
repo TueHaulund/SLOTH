@@ -43,6 +43,15 @@ def test_empty(test_str):
             Token('IDENTIFIER', 'k', (2, 7)),
         ],
     ),
+    (
+        'if true then bar',
+        [
+            Token('IF', 'if', (1, 1)),
+            Token('TRUE', 'true', (1, 4)),
+            Token('THEN', 'then', (1, 9)),
+            Token('IDENTIFIER', 'bar', (1, 14)),
+        ],
+    ),
 ])
 def test_valid_input(test_str, expected):
     tokens = Lexer(test_str).all_tokens()

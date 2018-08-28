@@ -1,6 +1,6 @@
 import re
 
-from sloth.token import LexicalGrammar
+from sloth.grammar import LexicalGrammar
 from sloth.token import Token
 
 class LexerError(Exception):

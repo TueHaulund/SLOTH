@@ -1,31 +1,4 @@
-import enum
-
-class LexicalGrammar(enum.Enum):
-    LEFT_PAREN = '\('
-    RIGHT_PAREN = '\)'
-    COMMA = '\,'
-    PERIOD = '\.'
-
-    MULTIPLY = '\*'
-    ADDITION = '\+'
-    SUBTRACTION = '\-'
-    DIVISION = '\\\\'
-
-    GREATER_EQUAL = '\>\='
-    GREATER_THAN = '\>'
-
-    LESS_EQUAL = '\<\='
-    LESS_THAN = '\<'
-
-    EQUAL = '\=\='
-
-    ASSIGNMENT = '\:\='
-
-    NUMBER = '\d+'
-
-    IDENTIFIER = '[a-zA-Z_][a-zA-Z0-9_]*'
-
-    EOL = '\n'
+from sloth.grammar import LexicalGrammar
 
 class Token(object):
     def __init__(self, token_name, lexeme, pos):
@@ -45,4 +18,7 @@ class Token(object):
         return self.type.name
 
     def __eq__(self, other):
-        return self.type == other.type and self.lexeme == other.lexeme and self.pos == other.pos
+        if isinstance(other, Token):
+            return (self.type == other.type and
+                    self.lexeme == other.lexeme and
+                    self.pos == other.pos)
