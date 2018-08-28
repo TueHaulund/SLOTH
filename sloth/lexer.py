@@ -1,6 +1,7 @@
 import re
 
-"""LEXER."""
+from sloth.token import LexicalGrammar
+from sloth.token import Token
 
 class LexerError(Exception):
     def __init__(self, pos):
@@ -19,7 +20,7 @@ class Lexer(object):
         self.line = 1
         self.column = 1
 
-        grouped_rules = ['(?P<{}>{})'.format(t.name, t.value) for t in TokenTypes]
+        grouped_rules = ['(?P<{}>{})'.format(t.name, t.value) for t in LexicalGrammar]
 
         self.regex = re.compile('|'.join(grouped_rules))
 
@@ -58,14 +59,6 @@ class Lexer(object):
 
             self.buffer = self.buffer[match.end():]
             yield token
-
-bar = iter(Lexer("12 4 ( 5)\n23eqweqweqwee 45"))
-
-try:
-    for tok in bar:
-        print(tok)
-except LexerError as e:
-    print(e)
 
 
 """LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,

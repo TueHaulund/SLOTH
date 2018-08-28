@@ -1,8 +1,6 @@
 import enum
 
-"""TOKENS."""
-
-class TokenTypes(enum.Enum):
+class LexicalGrammar(enum.Enum):
     LEFT_PAREN = '\('
     RIGHT_PAREN = '\)'
     COMMA = '\,'
@@ -30,8 +28,8 @@ class TokenTypes(enum.Enum):
     EOL = '\n'
 
 class Token(object):
-    def __init__(self, type_name, lexeme, pos):
-        self.type = TokenTypes[type_name]
+    def __init__(self, token_name, lexeme, pos):
+        self.type = LexicalGrammar[token_name]
         self.lexeme = lexeme
         self.pos = pos
 
