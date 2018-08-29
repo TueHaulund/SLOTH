@@ -20,24 +20,42 @@ class LexerError(Exception):
 
 class Lexer(object):
     def __init__(self, buf):
-        self.buffer = buf.strip()
+        # Initialise position state
         self.pos = 0
         self.line = 1
         self.column = 1
 
-        grouped_rules = ['(?P<{}>{})'.format(t.name, t.value) for t in LexicalGrammar]
+        # Remove trailing whitespace from buffer
+        self.buffer = buf.rstrip()
 
+        # Remove leading whitespace from buffer
+        # But advance lexer position accordingly
+        # Ensures token positions are accurate
+        if self.buffer:
+            self.skip_whitespace([' ', '\t', '\n'])
+
+        # Compile regex for lexing
+        grouped_rules = ['(?P<{}>{})'.format(t.name, t.value) for t in LexicalGrammar]
         self.regex = re.compile('|'.join(grouped_rules))
 
-    def skip_ws(self):
-        while self.buffer[self.pos] in [' ', '\t']:
-            self.pos += 1
+    def advance(self):
+        if self.buffer[self.pos] == '\n':
+            self.line += 1
+            self.column = 1
+        else:
             self.column += 1
+        self.pos += 1
+
+    def skip_whitespace(self, whitespace):
+        while self.buffer[self.pos] in whitespace:
+            self.advance()
 
     def next_token(self):
         while self.pos < len(self.buffer):
-            self.skip_ws()
+            # Advance past whitespace
+            self.skip_whitespace([' ', '\t'])
 
+            # Apply lexing regex at current positon
             match = self.regex.match(self.buffer[self.pos :])
 
             if not match:
@@ -45,15 +63,13 @@ class Lexer(object):
 
             lexeme = match.group(match.lastgroup)
 
+            # Build token
             token = Token(match.lastgroup, lexeme, (self.line, self.column))
 
-            if '\n' in lexeme:
-                self.line += 1
-                self.column = 1
-            else:
-                self.column += match.end() - match.start()
+            # Advance lexer position past current lexeme
+            for _ in lexeme:
+                self.advance()
 
-            self.pos += match.end()
             yield token
 
     def all_tokens(self):
