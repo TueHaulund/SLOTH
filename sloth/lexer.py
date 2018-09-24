@@ -30,7 +30,7 @@ class Lexer(object):
 
         # Remove leading whitespace from buffer
         # But advance lexer position accordingly
-        # Ensures token positions are accurate
+        # Ensures subsequent token positions are accurate
         if self.buffer:
             self.skip_whitespace([' ', '\t', '\n'])
 
@@ -58,19 +58,24 @@ class Lexer(object):
             # Apply lexing regex at current positon
             match = self.regex.match(self.buffer[self.pos :])
 
+            # Store current position
+            position = (self.line, self.column)
+
             if not match:
-                raise LexerError((self.line, self.column))
+                raise LexerError(position)
 
-            lexeme = match.group(match.lastgroup)
+            token_name = match.lastgroup
 
-            # Build token
-            token = Token(match.lastgroup, lexeme, (self.line, self.column))
+            # Extract lexeme
+            lexeme = match.group(token_name)
 
             # Advance lexer position past current lexeme
             for _ in lexeme:
                 self.advance()
 
-            yield token
+            # Produce token, skip comments
+            if token_name != 'COMMENT':
+                yield Token(token_name, lexeme, position)
 
     def all_tokens(self):
         return list(self.next_token())

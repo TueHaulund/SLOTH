@@ -114,7 +114,7 @@ def test_valid_input(test_str, expected):
     assert tokens == expected
 
 
-@pytest.mark.parametrize('test_str', ['#', '&', '|', 'Ø'])
+@pytest.mark.parametrize('test_str', ['^', '&', '|', 'Ø'])
 def test_invalid_single_token(test_str):
     with pytest.raises(LexerError) as exc_info:
         Lexer(test_str).all_tokens()
@@ -125,12 +125,12 @@ def test_invalid_single_token(test_str):
 @pytest.mark.parametrize(
     'test_str, expected_pos',
     [
-        (' #', (1, 2)),
-        (' \t #', (1, 4)),
-        ('\n\n#', (3, 1)),
-        ('\n\t #', (2, 3)),
-        ('        #', (1, 9)),
-        (' \n \n \n \t#', (4, 3)),
+        (' &', (1, 2)),
+        (' \t &', (1, 4)),
+        ('\n\n&', (3, 1)),
+        ('\n\t &', (2, 3)),
+        ('        &', (1, 9)),
+        (' \n \n \n \t&', (4, 3)),
     ],
 )
 def test_error_pos(test_str, expected_pos):

@@ -19,6 +19,7 @@ class LexicalGrammar(enum.Enum):
     LESS_THAN = '\<'
     EQUALS = '\='
 
+    COMMENT = '#(.*)(\n|\Z)'
     EOL = '\n'
 
     # Literals

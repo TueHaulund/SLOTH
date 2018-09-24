@@ -1,41 +1,41 @@
---Conditionals:
+# Conditionals:
 if (5 < 3) then
-    --stmts
+    # stmts
 elif (3 <5) then
-    --stmts
+    # stmts
 else
-    --stmts
+    # stmts
 end
 
 
---Loops:
+# Loops:
 while (i < 3)
-    --stmts
+    # stmts
 end
 
 for (i := 9; i <87; i += 1)
-    --stmts
+    # stmts
 end
 
---Var Declarations:
+# Var Declarations:
 num a := 4
 bool x := true
 
---Var Assignment:
+# Var Assignment:
 a := 16
 a += 14
 x := not x
 
---Function Declarations:
+# Function Declarations:
 def myFunc (num x, bool y) -> num
-    --stmts
+    # stmts
     return 2
 
 def myProc (num z) -> void
-    --stmst
+    # stmts
     return
 
---Expressions
+# Expressions
 a := a + 2 - 9 * (4 / 5)
 b := -2 * 4
 c := (b = a) or (b <= a) and (b >= a) or not b
